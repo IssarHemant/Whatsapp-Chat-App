@@ -12,7 +12,6 @@ const Whatsapp = () => {
   const {
     messages,
     getMessages,
-    // isMessagesLoading,
     selectedUser,
     subscribeToMessages,
     unsubscribeFromMessages,
@@ -326,7 +325,7 @@ const Whatsapp = () => {
         </div>
 
        
-{/* Big right container   */}
+{/* Big right container */}
          {!selectedUser ? (<section className="hidden xl:block flex-1">
             {/* <!-- last container --> */}
             <div className="sticky top-0 h-screen flex flex-col justify-center items-center">
@@ -368,7 +367,7 @@ const Whatsapp = () => {
 <Chatheader/>
 </div>
             {/* Scrolling chat box */}
-            <div className=" w-full px-3 pb-[80px] flex flex-col overflow-y-scroll ">
+            <div className=" w-full px-3 pb-[80px] h-screen flex flex-col overflow-y-scroll ">
              
               {messages.map((message) => (
           <div

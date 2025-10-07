@@ -161,22 +161,11 @@ const Chatpage = () => {
                 </div>
               </div>
               </div>
-               {/* Close button
-        <button onClick={() => setSelectedUser(null)}>
-          <X />
-        </button> */}
+              
 </div>
       {/* scrolling chat box */}
-      <div className="h-full w-full px-3 pb-[80px] flex flex-col justify-end overflow-y-scroll ">
-        {/* {selectedCard ? (
-          <div className="mt-[80px] text-center mb-5 flex items-center h-[25px] px-3 rounded-lg bg-yellow-100">
-            <p className="text-center text-sm font-semibold text-gray-600">
-              {`Welcome to the chat ${selectedCard.name}`}
-            </p>
-          </div>
-        ) : (
-          ""
-        )} */}
+      <div className="w-full px-3 pb-[80px] flex flex-col justify-end overflow-y-scroll ">
+       
         {messages.map((message) => (
     <div
       key={message._id}

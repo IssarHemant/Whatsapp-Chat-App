@@ -16,7 +16,6 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { selectedUser, setSelectedUser } = useChatStore();
     const { onlineUsers } = useAuthStore();
  
-    // if (!selectedUser) return null;
   return (
     <div>
         {/* <!-- upper box --> */}
@@ -127,10 +126,7 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
               </div>
               </div>
   
-               {/* Close button
-        <button onClick={() => setSelectedUser(null)}>
-          <X />
-        </button> */}
+              
     </div>
   )
 }
