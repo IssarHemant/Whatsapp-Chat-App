@@ -49,27 +49,6 @@ const MessageInput = () => {
 
   return (
     <div>
-      {/* <div className="">
-      {imagePreview && (
-        <div className=" ">
-          <div className="absolute  ">
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-40 h-40 object-cover rounded-lg border border-zinc-700"
-            />
-            <button
-              onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
-              flex items-center justify-center"
-              type="button"
-            >
-              <X className="size-3" />
-            </button>
-          </div>
-        </div>
-      )}
-      </div> */}
       
        {/* Bottom message */}
        <div className="fixed bottom-3 pl-[10px] pr-[10px] flex justify-center">

@@ -11,7 +11,6 @@ import { Image, Send, X } from "lucide-react";
 const Chatpage = () => {
   const { selectedUser, setSelectedUser } = useChatStore();
     const { onlineUsers } = useAuthStore();
-        // if (!selectedUser) return null;
 
   const {
     messages,
