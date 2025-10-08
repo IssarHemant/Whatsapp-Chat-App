@@ -82,7 +82,7 @@ const LoginPage = () => {
               </div>
             </div>
 
-            <button type="submit" className="bg-green-600 border-green-600 shadow-none text-white btn btn-primary w-full" disabled={isLoggingIn}>
+            <button type="submit" className="bg-green-600 border-none shadow-none text-white btn btn-primary w-full" disabled={isLoggingIn}>
               {isLoggingIn ? (
                 <>
                   <Loader2 className="h-5 w-5 animate-spin" />
