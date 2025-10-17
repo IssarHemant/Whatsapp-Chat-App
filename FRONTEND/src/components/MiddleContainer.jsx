@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAuthStore } from '../Store/useAuthStore';
 import { useChatStore } from "../Store/useChatStore";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 
 const MiddleContainer = () => {
@@ -10,10 +11,16 @@ const MiddleContainer = () => {
 
     const { onlineUsers } = useAuthStore();
     const [showOnlineOnly, setShowOnlineOnly] = useState(false);
+    const [isDeleteMode, setIsDeleteMode] = useState(false);
+    const [selectedChats, setSelectedChats] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     useEffect(() => {
         getUsers();
       }, [getUsers]);
+      useEffect(() => {
+        setFilteredUsers(showOnlineOnly ? users.filter(u => onlineUsers.includes(u._id)) : users);
+      }, [users, showOnlineOnly, onlineUsers]);
     const { logout } = useAuthStore();
 
     const [isLogout,setIsLogout]=useState(false);
@@ -27,8 +34,60 @@ const MiddleContainer = () => {
         setShowOnlineOnly(!showOnlineOnly);
       }
 
-      const filteredUsers=showOnlineOnly?users.filter((user)=>onlineUsers.includes(user._id)):users;
+      // const filteredUsers=showOnlineOnly?users.filter((user)=>onlineUsers.includes(user._id)):users;
 
+      const toggleDeleteMode=()=>{
+        setIsDeleteMode(!isDeleteMode);
+        setSelectedChats([]);
+      }
+      const handleCheckboxChange = (userId) => {
+        if (selectedChats.includes(userId)) {
+          setSelectedChats(selectedChats.filter((id) => id !== userId));
+        } else {
+          setSelectedChats([...selectedChats, userId]);
+        }
+      };
+      
+      
+          
+      const handleDeleteSelected = async () => {
+        try {
+          if (!selectedChats.length) return;
+      
+          const response = await axios.post(
+            "http://localhost:5001/api/messages/delete-chats",
+            { userIds: selectedChats },
+            { withCredentials: true }
+          );
+      
+          if (!response || response.status !== 200 || !response.data) {
+            console.error("Deletion failed: invalid response", response);
+            return;
+          }
+      
+          const deletedIds = response.data.deletedUserIds || [];
+      
+          const updatedUsers = users.filter(user => !deletedIds.includes(user._id));
+          useChatStore.setState({ users: updatedUsers });
+      
+          const updatedFiltered = showOnlineOnly
+            ? updatedUsers.filter(u => onlineUsers.includes(u._id))
+            : updatedUsers;
+          setFilteredUsers(updatedFiltered);
+      
+          setSelectedChats([]);
+          setIsDeleteMode(false);
+      
+          console.log("✅ Deleted chat cards and messages:", deletedIds);
+        } catch (error) {
+          console.error("❌ Error deleting chats:", error);
+          alert("Failed to delete chats. Check server logs.");
+        }
+      };
+  
+      
+      
+      
     
       
   return (
@@ -108,6 +167,8 @@ const MiddleContainer = () => {
               <li onClick={handleOnlineUsers}>
               {showOnlineOnly?"Show All":"Show Online"}</li>
             <Link to="/profilepage"> <li className="mt-2 xl:hidden flex">Settings</li></Link>
+            {!isDeleteMode?(<li onClick={toggleDeleteMode}>Delete</li>):(<><li onClick={handleDeleteSelected}>Delete Selected</li>    <li onClick={toggleDeleteMode}>Cancel</li>
+</>)}
             </ul>
           </div>
           </div>
@@ -176,6 +237,15 @@ const MiddleContainer = () => {
             
             className={`w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200  ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}`}
           >
+            {/* Checkbox when delete mode is active */}
+            {isDeleteMode && (
+              <input
+                type="checkbox"
+                checked={selectedChats.includes(user._id)}
+                onChange={() => handleCheckboxChange(user._id)}
+                className="w-4 h-4 ml-2 cursor-pointer"
+              />
+            )}
             {/* <!--left image box --> */}
             <div >
               

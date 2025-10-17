@@ -26,7 +26,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: "Hey there! I am using WhatsApp."
       },
-   
+      deletedChats: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }], // <-- new field
+
 }, {timestamps:true});
 
 const User=mongoose.model("User",userSchema);

@@ -1,20 +1,29 @@
 import User from "../models/user.model.js";
 import Message from "../models/message.model.js";
-
+import mongoose from "mongoose";
 import cloudinary from "../lib/cloudinary.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
-    const filteredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
 
-    res.status(200).json(filteredUsers);
+    const currentUser = await User.findById(loggedInUserId);
+    const deletedChats = currentUser?.deletedChats || [];
+
+    const users = await User.find({
+      _id: { $ne: loggedInUserId, $nin: deletedChats },
+    }).select("-password");
+
+    res.status(200).json(users);
   } catch (error) {
-    console.error("Error in getUsersForSidebar: ", error.message);
+    console.error("Error in getUsersForSidebar:", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
+
 
 export const getMessages = async (req, res) => {
   try {
@@ -55,10 +64,10 @@ export const sendMessage = async (req, res) => {
       image: imageUrl,
     });
 
-    await newMessage.save(); //saving message to database
+    await newMessage.save(); 
 
     const receiverSocketId = getReceiverSocketId(receiverId);
-    if (receiverSocketId) { //check if user online then send message
+    if (receiverSocketId) { 
       io.to(receiverSocketId).emit("newMessage", newMessage);
     }
 
@@ -68,4 +77,47 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }}
 
+  
+  
+  
+  
+  export const deleteChats = async (req, res) => {
+    try {
+      console.log("req.user:", req.user);
+      console.log("req.body:", req.body);
+  
+      const loggedInUserId = req.user._id;
+      const { userIds } = req.body;
+  
+      if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+        return res.status(400).json({ error: "No chat selected for deletion" });
+      }
+  
+      console.log("userIds to delete:", userIds);
+  
+      const deleteFilters = userIds.flatMap((userId) => [
+        { senderId: loggedInUserId, receiverId: userId },
+        { senderId: userId, receiverId: loggedInUserId },
+      ]);
+  
+      console.log("deleteFilters:", deleteFilters);
+  
+      const result = await Message.deleteMany({ $or: deleteFilters });
+      console.log("Deleted messages:", result.deletedCount);
+  
+      await User.findByIdAndUpdate(loggedInUserId, {
+        $addToSet: { deletedChats: { $each: userIds } },
+      });
+  
+      res.status(200).json({
+        success: true,
+        message: "Chats deleted successfully",
+        deletedUserIds: userIds,
+        deletedMessagesCount: result.deletedCount,
+      });
+    } catch (error) {
+      console.error("❌ Error deleting chats:", error);
+      res.status(500).json({ error: error.message });
+    }
+  };
   
