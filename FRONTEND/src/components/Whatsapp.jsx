@@ -374,7 +374,7 @@ const Whatsapp = () => {
             ref={messageEndRef}
           >
             
-            <div className="chat-bubble flex flex-col">
+            <div className="chat-bubble bg-green-300 text-white flex flex-col">
             {message.image && (
                 <img
                   src={message.image}
@@ -384,7 +384,7 @@ const Whatsapp = () => {
               )}
               {message.text && <p>{message.text}</p>}
               <div className="chat-header mb-1 flex justify-end">
-              <time className="text-xs opacity-50 ">
+              <time className="text-xs">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>

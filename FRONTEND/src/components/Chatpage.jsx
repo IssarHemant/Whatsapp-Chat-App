@@ -172,7 +172,7 @@ const Chatpage = () => {
       ref={messageEndRef}
     >
       
-      <div className="chat-bubble bg-green-300 flex flex-col">
+      <div className="chat-bubble bg-green-300 text-white flex flex-col">
       {message.image && (
                 <img
                   src={message.image}
