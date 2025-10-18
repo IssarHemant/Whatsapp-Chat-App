@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 
 const Chatheader = () => {
   const [messages, setMessages] = useState([]); // all messages
-const [selectedMessages, setSelectedMessages] = useState([]); // selected for deletion
 const [deletionMode, setDeletionMode] = useState(false); // show checkboxes or not
 const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 

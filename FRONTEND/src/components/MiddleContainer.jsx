@@ -93,7 +93,7 @@ const MiddleContainer = () => {
   return (
     <>
     {/* Middle container */}
-    <div className="sticky top-0 h-screen overflow-y-scroll pb-[200px] w-screen xl:w-[430px] border border-l-0 border-r-gray-100 border-y-0">
+    <div className="sticky top-0 h-screen overflow-y-scroll pb-[200px] w-screen xl:w-[430px] bg-white border border-l-0 border-r-gray-100 border-y-0">
     {/* Upper container */}
     <div className="sticky top-0 bg-white border border-x-0 border-t-0 border-b-gray-100 pt-4 pb-[5px] px-3">
     
@@ -161,12 +161,12 @@ const MiddleContainer = () => {
             </svg>
           {/* Toggle state */}
 
-         <div className={`absolute right-0 top-10 z-10 bg-white border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
+         <div className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
             <ul>
-              <li className="mb-2" onClick={logout}>Logout</li>
+              <li onClick={logout}>Logout</li>
               <li onClick={handleOnlineUsers}>
               {showOnlineOnly?"Show All":"Show Online"}</li>
-            <Link to="/profilepage"> <li className="mt-2 xl:hidden flex">Settings</li></Link>
+            <Link to="/profilepage"> <li className=" xl:hidden flex">Settings</li></Link>
             {!isDeleteMode?(<li onClick={toggleDeleteMode}>Delete</li>):(<><li onClick={handleDeleteSelected}>Delete Selected</li>    <li onClick={toggleDeleteMode}>Cancel</li>
 </>)}
             </ul>
@@ -235,7 +235,7 @@ const MiddleContainer = () => {
           onClick={() => setSelectedUser(user)}
 
             
-            className={`w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200  ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}`}
+            className={"w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200"}
           >
             {/* Checkbox when delete mode is active */}
             {isDeleteMode && (
@@ -259,7 +259,7 @@ const MiddleContainer = () => {
             {/* Right card box */}
             <div className="flex justify-between w-full pr-[10px]">
               <div className="">
-                <h3 className="font-semibold mb-[5px] h-[21px] w-[255px] overflow-x-hidden overflow-y-hidden">
+                <h3 className="text-black font-semibold mb-[5px] h-[21px] w-[255px] overflow-x-hidden overflow-y-hidden">
                   {user.fullName}
                 </h3>
 
@@ -287,17 +287,17 @@ const MiddleContainer = () => {
                   <title>lock-outline</title>
                   <path
                     d="M6.793 22.4C6.29767 22.4 5.875 22.2237 5.525 21.8712C5.175 21.5187 5 21.095 5 20.6V11C5 10.505 5.17625 10.0813 5.52875 9.72875C5.88125 9.37625 6.305 9.2 6.8 9.2H7.4V6.8C7.4 5.472 7.86858 4.34 8.80575 3.404C9.74275 2.468 10.8761 2 12.2057 2C13.5352 2 14.6667 2.468 15.6 3.404C16.5333 4.34 17 5.472 17 6.8V9.2H17.6C18.095 9.2 18.5187 9.37625 18.8712 9.72875C19.2237 10.0813 19.4 10.505 19.4 11V20.6C19.4 21.095 19.2237 21.5187 18.871 21.8712C18.5183 22.2237 18.0943 22.4 17.599 22.4H6.793ZM6.8 20.6H17.6V11H6.8V20.6ZM12.2052 17.6C12.7017 17.6 13.125 17.4233 13.475 17.0698C13.825 16.7163 14 16.2913 14 15.7948C14 15.2983 13.8232 14.875 13.4697 14.525C13.1162 14.175 12.6912 14 12.1947 14C11.6982 14 11.275 14.1767 10.925 14.5302C10.575 14.8837 10.4 15.3087 10.4 15.8052C10.4 16.3017 10.5767 16.725 10.9302 17.075C11.2837 17.425 11.7087 17.6 12.2052 17.6ZM9.2 9.2H15.2V6.8C15.2 5.96667 14.9083 5.25833 14.325 4.675C13.7417 4.09167 13.0333 3.8 12.2 3.8C11.3667 3.8 10.6583 4.09167 10.075 4.675C9.49167 5.25833 9.2 5.96667 9.2 6.8V9.2Z"
-                    fill="currentColor"
+                    fill="darkgreen"
                   ></path>
                 </svg>
-    <p className="text-sm">
+    <p className="text-black text-sm">
                   Your personal messages are <span className="text-green-800 font-bold"> end-to-end encrypted</span>
                 </p>
      </div>
     </div>
 
      {/* Chats area for phone */}
-     <div className="xl:hidden flex flex-col overflow-y-scroll ml-2 mr-2 bg-white">
+     <div className="xl:hidden w-full flex flex-col overflow-y-scroll pl-2 pr-2 ">
       {/* Cards area */}
       <div className="flex-1">
         {/* Card 1 */}
@@ -320,7 +320,7 @@ const MiddleContainer = () => {
             {/* Right card box */}
             <div className="flex justify-between w-full pr-[10px]">
               <div className="">
-                <h3 className="font-semibold mb-[5px] h-[21px] w-[255px] overflow-x-hidden overflow-y-hidden">
+                <h3 className="text-black font-semibold mb-[5px] h-[21px] w-[255px] overflow-x-hidden overflow-y-hidden">
                   {user.fullName}
                 </h3>
 
@@ -346,10 +346,10 @@ const MiddleContainer = () => {
                   <title>lock-outline</title>
                   <path
                     d="M6.793 22.4C6.29767 22.4 5.875 22.2237 5.525 21.8712C5.175 21.5187 5 21.095 5 20.6V11C5 10.505 5.17625 10.0813 5.52875 9.72875C5.88125 9.37625 6.305 9.2 6.8 9.2H7.4V6.8C7.4 5.472 7.86858 4.34 8.80575 3.404C9.74275 2.468 10.8761 2 12.2057 2C13.5352 2 14.6667 2.468 15.6 3.404C16.5333 4.34 17 5.472 17 6.8V9.2H17.6C18.095 9.2 18.5187 9.37625 18.8712 9.72875C19.2237 10.0813 19.4 10.505 19.4 11V20.6C19.4 21.095 19.2237 21.5187 18.871 21.8712C18.5183 22.2237 18.0943 22.4 17.599 22.4H6.793ZM6.8 20.6H17.6V11H6.8V20.6ZM12.2052 17.6C12.7017 17.6 13.125 17.4233 13.475 17.0698C13.825 16.7163 14 16.2913 14 15.7948C14 15.2983 13.8232 14.875 13.4697 14.525C13.1162 14.175 12.6912 14 12.1947 14C11.6982 14 11.275 14.1767 10.925 14.5302C10.575 14.8837 10.4 15.3087 10.4 15.8052C10.4 16.3017 10.5767 16.725 10.9302 17.075C11.2837 17.425 11.7087 17.6 12.2052 17.6ZM9.2 9.2H15.2V6.8C15.2 5.96667 14.9083 5.25833 14.325 4.675C13.7417 4.09167 13.0333 3.8 12.2 3.8C11.3667 3.8 10.6583 4.09167 10.075 4.675C9.49167 5.25833 9.2 5.96667 9.2 6.8V9.2Z"
-                    fill="currentColor"
+                    fill="darkgreen"
                   ></path>
                 </svg>
-    <p className="text-sm">
+    <p className="text-black text-sm">
                   Your personal messages are <span className="text-green-800 font-bold"> end-to-end encrypted</span>
                 </p>
      </div>

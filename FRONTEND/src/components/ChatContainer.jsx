@@ -17,12 +17,12 @@ const ChatContainer = () => {
       const { authUser } = useAuthStore();
   return (
     <div className="w-screen">
-       <section className="flex-1 xl:block hidden h-full">
+       <section className="flex-1 xl:block hidden h-full ">
           <div className="sticky top-0 z-10">
 <Chatheader/>
 </div>
             {/* Scrolling chat box */}
-            <div className=" w-full px-3 pb-[80px] flex flex-col overflow-y-scroll ">
+            <div className=" w-full px-3 pb-[80px] flex flex-col overflow-y-scroll">
              
               {messages.map((message) => (
           <div
@@ -31,7 +31,7 @@ const ChatContainer = () => {
             ref={messageEndRef}
           >
             
-            <div className="chat-bubble flex flex-col">
+            <div className="chat-bubble bg-green-300 flex flex-col">
             {message.image && (
                 <img
                   src={message.image}
@@ -40,8 +40,8 @@ const ChatContainer = () => {
                 />
               )}
               {message.text && <p>{message.text}</p>}
-              <div className="chat-header mb-1 flex justify-end">
-              <time className="text-xs opacity-50 ">
+              <div className="chat-header mb-1 bg-green-400 flex justify-end">
+              <time className="text-xs">
                 {formatMessageTime(message.createdAt)}
               </time>
             </div>
