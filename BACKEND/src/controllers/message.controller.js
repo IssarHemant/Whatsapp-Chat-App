@@ -77,47 +77,85 @@ export const sendMessage = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }}
 
-  
-  
-  
-  
   export const deleteChats = async (req, res) => {
-    try {
-      console.log("req.user:", req.user);
-      console.log("req.body:", req.body);
-  
-      const loggedInUserId = req.user._id;
-      const { userIds } = req.body;
-  
-      if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
-        return res.status(400).json({ error: "No chat selected for deletion" });
-      }
-  
-      console.log("userIds to delete:", userIds);
-  
-      const deleteFilters = userIds.flatMap((userId) => [
-        { senderId: loggedInUserId, receiverId: userId },
-        { senderId: userId, receiverId: loggedInUserId },
-      ]);
-  
-      console.log("deleteFilters:", deleteFilters);
-  
-      const result = await Message.deleteMany({ $or: deleteFilters });
-      console.log("Deleted messages:", result.deletedCount);
-  
-      await User.findByIdAndUpdate(loggedInUserId, {
-        $addToSet: { deletedChats: { $each: userIds } },
-      });
-  
-      res.status(200).json({
-        success: true,
-        message: "Chats deleted successfully",
-        deletedUserIds: userIds,
-        deletedMessagesCount: result.deletedCount,
-      });
-    } catch (error) {
-      console.error("❌ Error deleting chats:", error);
-      res.status(500).json({ error: error.message });
+  try {
+    console.log("🔍 deleteChats called");
+    console.log("req.user:", req.user);
+    console.log("req.body:", req.body);
+    
+    const loggedInUserId = req.user._id;
+    if (!loggedInUserId) {
+      console.error("❌ No logged-in user");
+      return res.status(401).json({ error: "Unauthorized" });
     }
-  };
-  
+    
+    const { userIds } = req.body;
+    console.log("userIds received:", userIds);
+    
+    if (!userIds || !Array.isArray(userIds) || userIds.length === 0) {
+      return res.status(400).json({ error: "No chats selected for deletion" });
+    }
+    
+    const validUserIds = userIds.filter(id => 
+      mongoose.Types.ObjectId.isValid(id) && id !== loggedInUserId.toString()
+    );
+    if (validUserIds.length !== userIds.length) {
+      return res.status(400).json({ error: "Invalid user IDs provided" });
+    }
+    
+    console.log("Valid userIds to delete:", validUserIds);
+    
+    // Build filters for messages (both directions)
+    const deleteFilters = validUserIds.flatMap((userId) => [
+      { senderId: loggedInUserId, receiverId: userId },
+      { senderId: userId, receiverId: loggedInUserId },
+    ]);
+    
+    console.log("Delete filters:", deleteFilters);
+    
+    // Delete messages entirely
+    console.log("About to delete messages...");
+    const deleteResult = await Message.deleteMany({ $or: deleteFilters });
+    console.log("Delete result:", deleteResult);
+    
+    // Update logged-in user's deletedChats (soft delete for them)
+    console.log("About to update logged-in user...");
+    await User.findByIdAndUpdate(loggedInUserId, {
+      $addToSet: { deletedChats: { $each: validUserIds } }
+    });
+    
+    // Permanently delete each other user
+    const deletedUsers = [];
+    for (const userId of validUserIds) {
+      console.log(`🔄 Attempting to permanently delete user ${userId}...`);
+      try {
+        const deletedUser = await User.findByIdAndDelete(userId);
+        if (deletedUser) {
+          console.log(`✅ User ${userId} deleted successfully:`, deletedUser.fullName || deletedUser.email);
+          deletedUsers.push(userId);
+        } else {
+          console.log(`❌ User ${userId} not found (already deleted?)`);
+        }
+      } catch (deleteError) {
+        console.error(`❌ Error deleting user ${userId}:`, deleteError.message);
+        // Continue to next user instead of crashing
+      }
+    }
+    
+    // Emit real-time updates
+    const loggedInSocketId = getReceiverSocketId(loggedInUserId);
+    if (loggedInSocketId) {
+      io.to(loggedInSocketId).emit("chatsDeleted", { deletedUserIds: deletedUsers });
+    }
+    
+    res.status(200).json({
+      success: true,
+      message: `Chats deleted. Users permanently deleted: ${deletedUsers.length}`,
+      deletedUserIds: deletedUsers,
+      deletedMessagesCount: deleteResult.deletedCount,
+    });
+  } catch (error) {
+    console.error("❌ Full error:", error.stack);
+    res.status(500).json({ error: "Internal server error", details: error.message });
+  }
+};
