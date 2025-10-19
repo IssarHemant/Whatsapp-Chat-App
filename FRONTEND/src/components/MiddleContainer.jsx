@@ -47,15 +47,13 @@ const MiddleContainer = () => {
           setSelectedChats([...selectedChats, userId]);
         }
       };
-      
-      
-          
+     
       const handleDeleteSelected = async () => {
         try {
           if (!selectedChats.length) return;
       
           const response = await axios.post(
-            "http://localhost:5001/api/messages/delete-chats",
+            `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,  // Dynamic URL
             { userIds: selectedChats },
             { withCredentials: true }
           );
@@ -84,8 +82,6 @@ const MiddleContainer = () => {
           alert("Failed to delete chats. Check server logs.");
         }
       };
-  
-      
       
       
     
