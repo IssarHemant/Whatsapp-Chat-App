@@ -48,12 +48,46 @@ const MiddleContainer = () => {
         }
       };
      
+      // const handleDeleteSelected = async () => {
+      //   try {
+      //     if (!selectedChats.length) return;
+      
+      //     const response = await axios.post(
+      //       `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,  // Dynamic URL
+      //       { userIds: selectedChats },
+      //       { withCredentials: true }
+      //     );
+      
+      //     if (!response || response.status !== 200 || !response.data) {
+      //       console.error("Deletion failed: invalid response", response);
+      //       return;
+      //     }
+      
+      //     const deletedIds = response.data.deletedUserIds || [];
+      
+      //     const updatedUsers = users.filter(user => !deletedIds.includes(user._id));
+      //     useChatStore.setState({ users: updatedUsers });
+      
+      //     const updatedFiltered = showOnlineOnly
+      //       ? updatedUsers.filter(u => onlineUsers.includes(u._id))
+      //       : updatedUsers;
+      //     setFilteredUsers(updatedFiltered);
+      
+      //     setSelectedChats([]);
+      //     setIsDeleteMode(false);
+      
+      //     console.log("✅ Deleted chat cards and messages:", deletedIds);
+      //   } catch (error) {
+      //     console.error("❌ Error deleting chats:", error);
+      //     alert("Failed to delete chats. Check server logs.");
+      //   }
+      // };
       const handleDeleteSelected = async () => {
         try {
           if (!selectedChats.length) return;
       
           const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,  // Dynamic URL
+            "http://localhost:5001/api/messages/delete-chats",
             { userIds: selectedChats },
             { withCredentials: true }
           );
@@ -82,6 +116,14 @@ const MiddleContainer = () => {
           alert("Failed to delete chats. Check server logs.");
         }
       };
+  
+      
+      
+      
+      
+      
+      
+      
       
       
     
