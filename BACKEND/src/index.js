@@ -16,12 +16,21 @@ const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.NODE_ENV === "production" 
+      ? "https://whatsapp-chat-app-63u2.onrender.com"  // Your frontend URL
+      : "http://localhost:5173",
     credentials: true,
   })
 );
+
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
