@@ -87,7 +87,7 @@ const MiddleContainer = () => {
           if (!selectedChats.length) return;
       
           const response = await axios.post(
-            "http://localhost:5001/api/messages/delete-chats",
+      `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,
             { userIds: selectedChats },
             { withCredentials: true }
           );
