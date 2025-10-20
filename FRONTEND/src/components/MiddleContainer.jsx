@@ -86,11 +86,16 @@ const MiddleContainer = () => {
         try {
           if (!selectedChats.length) return;
       
-          const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,
-            { userIds: selectedChats },
-            { withCredentials: true }
-          );
+          const baseURL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5001"
+        : "https://your-backend.onrender.com"; // <-- replace with your Render backend URL
+
+    const response = await axios.post(
+      `${baseURL}/api/messages/delete-chats`,
+      { userIds: selectedChats },
+      { withCredentials: true }
+    );
       
           if (!response || response.status !== 200 || !response.data) {
             console.error("Deletion failed: invalid response", response);
