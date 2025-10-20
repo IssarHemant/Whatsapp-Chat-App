@@ -89,7 +89,7 @@ const MiddleContainer = () => {
           const baseURL =
       window.location.hostname === "localhost"
         ? "http://localhost:5001"
-        : "https://your-backend.onrender.com"; // <-- replace with your Render backend URL
+        : "https://whatsapp-chat-app-63u2.onrender.com/"; // <-- replace with your Render backend URL
 
     const response = await axios.post(
       `${baseURL}/api/messages/delete-chats`,
