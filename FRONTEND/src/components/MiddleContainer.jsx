@@ -286,7 +286,7 @@ const MiddleContainer = () => {
                 type="checkbox"
                 checked={selectedChats.includes(user._id)}
                 onChange={() => handleCheckboxChange(user._id)}
-                className="w-4 h-4 ml-2 cursor-pointer"
+                className="w-4 h-4 ml-2 cursor-pointer accent-green-400"
               />
             )}
             {/* <!--left image box --> */}
@@ -348,7 +348,7 @@ const MiddleContainer = () => {
           <Link to="/chatpage"
           key={user._id}           onClick={() => setSelectedUser(user)}
 
-            className={`w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200  ${selectedUser?._id === user._id ? "bg-base-300 ring-1 ring-base-300" : ""}`}
+            className={`w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200`}
           >
             {/* Left image box */}
             <div >
