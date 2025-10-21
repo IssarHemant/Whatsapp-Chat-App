@@ -350,6 +350,17 @@ const MiddleContainer = () => {
 
             className={`w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200`}
           >
+
+            {/* Checkbox when delete mode is active */}
+            {isDeleteMode && (
+              <input
+                type="checkbox"
+                checked={selectedChats.includes(user._id)}
+                onChange={() => handleCheckboxChange(user._id)}
+                className="w-4 h-4 ml-2 cursor-pointer accent-green-400"
+              />
+            )}
+            
             {/* Left image box */}
             <div >
               
