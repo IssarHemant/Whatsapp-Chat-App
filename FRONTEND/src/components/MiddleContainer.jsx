@@ -15,6 +15,7 @@ const MiddleContainer = () => {
     const [selectedChats, setSelectedChats] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 const [filteredUsers, setFilteredUsers] = useState([]);
+const [isLogout,setIsLogout]=useState(false);
 
 useEffect(() => {
   let filtered = users;
@@ -33,16 +34,15 @@ useEffect(() => {
 
   setFilteredUsers(filtered);
 }, [users, showOnlineOnly, onlineUsers, searchTerm]);
+
     useEffect(() => {
         getUsers();
       }, [getUsers]);
       useEffect(() => {
         setFilteredUsers(showOnlineOnly ? users.filter(u => onlineUsers.includes(u._id)) : users);
       }, [users, showOnlineOnly, onlineUsers]);
-    const { logout } = useAuthStore();
 
-    const [isLogout,setIsLogout]=useState(false);
-    
+    const { logout } = useAuthStore();
 
     const handleLogoutState=()=>{
         setIsLogout(!isLogout);
@@ -52,11 +52,11 @@ useEffect(() => {
         setShowOnlineOnly(!showOnlineOnly);
       }
 
-
       const toggleDeleteMode=()=>{
         setIsDeleteMode(!isDeleteMode);
         setSelectedChats([]);
       }
+
       const handleCheckboxChange = (userId) => {
         if (selectedChats.includes(userId)) {
           setSelectedChats(selectedChats.filter((id) => id !== userId));
@@ -64,7 +64,6 @@ useEffect(() => {
           setSelectedChats([...selectedChats, userId]);
         }
       };
-     
      
       const handleDeleteSelected = async () => {
         try {
@@ -105,17 +104,6 @@ useEffect(() => {
           alert("Failed to delete chats. Check server logs.");
         }
       };
-  
-      
-      
-      
-      
-      
-      
-      
-      
-      
-    
       
   return (
     <>
@@ -188,7 +176,7 @@ useEffect(() => {
             </svg>
           {/* Toggle state */}
 
-         <div className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
+         <div onBlur={()=>setIsLogout(!isLogout)} className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
             <ul>
               <li onClick={logout}>Logout</li>
               <li onClick={handleOnlineUsers}>
@@ -348,7 +336,7 @@ useEffect(() => {
           handleCheckboxChange(user._id);
         }}
         onClick={(e) => e.preventDefault()} // Prevent Link navigation
-        className="w-4 h-4 ml-2 cursor-pointer accent-green-400"
+        className="w-4 h-4 ml-2 cursor-pointer accent-green-400 bg-white"
       />
     )}
             
