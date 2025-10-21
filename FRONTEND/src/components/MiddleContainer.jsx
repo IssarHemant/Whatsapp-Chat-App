@@ -13,8 +13,26 @@ const MiddleContainer = () => {
     const [showOnlineOnly, setShowOnlineOnly] = useState(false);
     const [isDeleteMode, setIsDeleteMode] = useState(false);
     const [selectedChats, setSelectedChats] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+const [filteredUsers, setFilteredUsers] = useState([]);
 
+useEffect(() => {
+  let filtered = users;
+
+  // 🔍 Filter by search term (both online & offline users)
+  if (searchTerm.trim() !== "") {
+    filtered = filtered.filter(user =>
+      user.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
+
+  // 🟢 If "Show Online Only" toggle is active
+  if (showOnlineOnly) {
+    filtered = filtered.filter(user => onlineUsers.includes(user._id));
+  }
+
+  setFilteredUsers(filtered);
+}, [users, showOnlineOnly, onlineUsers, searchTerm]);
     useEffect(() => {
         getUsers();
       }, [getUsers]);
@@ -34,7 +52,6 @@ const MiddleContainer = () => {
         setShowOnlineOnly(!showOnlineOnly);
       }
 
-      // const filteredUsers=showOnlineOnly?users.filter((user)=>onlineUsers.includes(user._id)):users;
 
       const toggleDeleteMode=()=>{
         setIsDeleteMode(!isDeleteMode);
@@ -48,40 +65,7 @@ const MiddleContainer = () => {
         }
       };
      
-      // const handleDeleteSelected = async () => {
-      //   try {
-      //     if (!selectedChats.length) return;
-      
-      //     const response = await axios.post(
-      //       `${import.meta.env.VITE_API_URL}/api/messages/delete-chats`,  // Dynamic URL
-      //       { userIds: selectedChats },
-      //       { withCredentials: true }
-      //     );
-      
-      //     if (!response || response.status !== 200 || !response.data) {
-      //       console.error("Deletion failed: invalid response", response);
-      //       return;
-      //     }
-      
-      //     const deletedIds = response.data.deletedUserIds || [];
-      
-      //     const updatedUsers = users.filter(user => !deletedIds.includes(user._id));
-      //     useChatStore.setState({ users: updatedUsers });
-      
-      //     const updatedFiltered = showOnlineOnly
-      //       ? updatedUsers.filter(u => onlineUsers.includes(u._id))
-      //       : updatedUsers;
-      //     setFilteredUsers(updatedFiltered);
-      
-      //     setSelectedChats([]);
-      //     setIsDeleteMode(false);
-      
-      //     console.log("✅ Deleted chat cards and messages:", deletedIds);
-      //   } catch (error) {
-      //     console.error("❌ Error deleting chats:", error);
-      //     alert("Failed to delete chats. Check server logs.");
-      //   }
-      // };
+     
       const handleDeleteSelected = async () => {
         try {
           if (!selectedChats.length) return;
@@ -238,11 +222,14 @@ const MiddleContainer = () => {
         <form
           className="w-full"
         >
-          <input
-            className="bg-gray-100 w-full h-[40px] rounded-full pl-10 border"
-            type="text"
-            placeholder="Search or start a new chat"
-          />
+         <input
+  className="bg-gray-100 w-full h-[40px] rounded-full pl-10 border"
+  type="text"
+  placeholder="Search user..."
+  value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+/>
+
         </form>
       </div>
       
