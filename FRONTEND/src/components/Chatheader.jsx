@@ -36,7 +36,6 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
               </div>
               {/* <!--  right box --> */}
              
-              {/* //hy */}
               <div className="flex items-center gap-[20px] mr-[20px]">
                 {/* <!-- video camera box --> */}
                 <div className="flex gap-[2px]">
@@ -88,7 +87,7 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
                     ></path>
                   </svg>
                   {/* <!-- three dots icon --> */}
-                  <div onClick={() => setIsDropdownOpen((prev) => !prev)}>
+                  <div>
                   <svg
                     viewBox="0 0 24 24"
                     height="24"
@@ -103,23 +102,7 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
                       fill="black"
                     ></path>
                   </svg>
-                  <div className={`absolute right-0 top-10 z-10 bg-white border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isDropdownOpen?"scale-y-100":"scale-y-0"}`}>
-            <ul>
-            {messages.length > 0 ? (
-        <li
-          onClick={() => {
-            setDeletionMode(true);
-            setIsDropdownOpen(false); // close dropdown after clicking
-          }}
-          className="cursor-pointer hover:text-red-500"
-        >
-          Delete Messages
-        </li>
-      ) : (
-        <li className="text-gray-400 select-none">No messages</li>
-      )}
-            </ul>
-          </div>
+                  
                   </div>
                 </div>
               </div>

@@ -353,13 +353,17 @@ const MiddleContainer = () => {
 
             {/* Checkbox when delete mode is active */}
             {isDeleteMode && (
-              <input
-                type="checkbox"
-                checked={selectedChats.includes(user._id)}
-                onChange={() => handleCheckboxChange(user._id)}
-                className="w-4 h-4 ml-2 cursor-pointer accent-green-400"
-              />
-            )}
+      <input
+        type="checkbox"
+        checked={selectedChats.includes(user._id)}
+        onChange={(e) => {
+          e.stopPropagation(); // Prevents Link click event
+          handleCheckboxChange(user._id);
+        }}
+        onClick={(e) => e.preventDefault()} // Prevent Link navigation
+        className="w-4 h-4 ml-2 cursor-pointer accent-green-400"
+      />
+    )}
             
             {/* Left image box */}
             <div >
