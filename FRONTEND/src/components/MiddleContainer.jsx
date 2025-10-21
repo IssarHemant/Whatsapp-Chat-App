@@ -369,7 +369,7 @@ const MiddleContainer = () => {
             <div >
               
                  <img
-                 src={user.profilePic || "/avatar.png"}
+                 src={user.profilePhoto || "/avatar.png"}
                  alt={user.name}
                   className="w-[60px] h-[50px] rounded-full"
                                 />
