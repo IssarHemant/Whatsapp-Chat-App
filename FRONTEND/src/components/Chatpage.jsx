@@ -11,7 +11,8 @@ import { Image, Send, X } from "lucide-react";
 const Chatpage = () => {
   const { selectedUser, setSelectedUser } = useChatStore();
     const { onlineUsers } = useAuthStore();
-
+    const [showName, setShowName]=useState(false);
+const [showImage,setShowImage]=useState(false);
   const {
     messages,
   } = useChatStore();
@@ -60,6 +61,13 @@ const Chatpage = () => {
     }
   };
 
+  const handleShowName=()=>{
+    setShowName(!showName);
+  }
+  const handleShowImage=()=>{
+    setShowImage(!showImage);
+    setShowName(false);
+  }
 
   useEffect(() => {
     if (messageEndRef.current && messages) {
@@ -72,22 +80,23 @@ const Chatpage = () => {
     <section className="flex-1 block xl:hidden h-screen bg-white overflow-y-scroll">
     <div className="sticky top-0 z-10">
 
-      {/* Chatheader Area of Scrolling box */}
+      {/* Chatheader Area of Scrolling Box */}
       <div className="flex justify-between items-center pl-[15px] pt-[10px] pb-[10px] bg-white z-10">
-              {/* <!-- left content box --> */}
+              {/* <!-- Left Content Box --> */}
               <div className="flex items-center gap-4">
-                {/* <!-- image box --> */}
-                
-                <img className="w-[35px] h-[35px] rounded-full" src= {selectedUser?.profilePhoto || "/avatar.png"} alt="" />
-
+                {/* <!-- Image Box --> */}
+                <div onClick={handleShowImage}>
+                <img  className="w-[35px] h-[35px] rounded-full" src= {selectedUser?.profilePhoto || "/avatar.png"} alt="" />
+                </div>
                 
                  
-                {/* <!-- name box --> */}
-                <div>
-                  <h1 className="text-black">{selectedUser?.fullName}</h1>
+                {/* <!-- Name Box --> */}
+                <div onClick={handleShowName}>
+                  <h1 className="text-black truncate max-w-[120px]">{selectedUser?.fullName}</h1>
                   <div className="text-black text-xs"> {onlineUsers?.includes(selectedUser?._id) ? "Online" : "Offline"}</div>
 
                 </div>
+                
               </div>
               {/* <!--  right box --> */}
               <div className="flex items-center gap-[20px] mr-[20px]">
@@ -162,9 +171,36 @@ const Chatpage = () => {
               </div>
               
 </div>
-      {/* scrolling chat box */}
-      <div className="w-full px-3 pb-[80px] flex flex-col justify-end overflow-y-scroll ">
-       
+{/* Toggle Full Name Bar */}
+<div className={`absolute transition-all duration-300 ${showName ? "opacity-100 translate-y-0":"opacity-0 -translate-y-full"}`}>
+<div  className="border w-fit ml-16 p-2 rounded-lg shadow-md">
+{selectedUser?.fullName}
+              </div>
+              </div>
+              {/* Centered Image With Darker Overlay */}
+<div className={`fixed inset-0 flex items-center justify-center z-20 transition-all duration-300 ${showImage?"opacity-100 scale-100":"opacity-0 scale-0"}`}>
+  {/* Overlay With Higher Opacity And Blur */}
+  <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
+
+  {/* Image Box */}
+  <div className="relative z-30">
+    <img
+      className="w-[300px] h-[300px] rounded-full"
+      src={selectedUser?.profilePhoto || "/avatar.png"}
+      alt=""
+    />
+    <button
+      onClick={() => setShowImage(false)}
+      className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg hover:bg-gray-200"
+    >
+      <X className="w-5 h-5 text-black" />
+    </button>
+  </div>
+</div>
+
+      {/* Scrolling Chat Box */}
+      <div className="w-full px-3 pb-[80px] flex flex-col justify-end overflow-y-scroll">
+      
         {messages.map((message) => (
     <div
       key={message._id}

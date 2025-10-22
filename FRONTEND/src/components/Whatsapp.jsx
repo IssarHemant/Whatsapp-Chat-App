@@ -17,7 +17,6 @@ const Whatsapp = () => {
     unsubscribeFromMessages,
   } = useChatStore();
   const messageEndRef = useRef(null);
-  const navigate = useNavigate();
   const { authUser } = useAuthStore();
   const [selectedImg, setSelectedImg] = useState(null);
 

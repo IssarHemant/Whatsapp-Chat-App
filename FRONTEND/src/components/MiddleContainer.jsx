@@ -211,7 +211,7 @@ useEffect(() => {
           className="w-full"
         >
          <input
-  className="bg-gray-100 w-full h-[40px] rounded-full pl-10 border"
+  className="bg-gray-100 w-full h-[40px] rounded-full pl-10 border outline-none"
   type="text"
   placeholder="Search user..."
   value={searchTerm}
@@ -246,13 +246,10 @@ useEffect(() => {
       {/* <!-- cards area --> */}
       <div className="flex-1">
         {/* <!-- card 1 --> */}
-        {filteredUsers.map((user) => (
-          
+        {filteredUsers.map((user) => (     
           <div
           key={user._id}
-          onClick={() => setSelectedUser(user)}
-
-            
+          onClick={() => setSelectedUser(user)}         
             className={"w-full rounded-lg h-[65px] flex items-center gap-4 border mt-3 pl-[10px] hover:bg-gray-100 transition-all duration-200"}
           >
             {/* Checkbox when delete mode is active */}
@@ -327,19 +324,15 @@ useEffect(() => {
           >
 
             {/* Checkbox when delete mode is active */}
-            {isDeleteMode && (
-      <input
-        type="checkbox"
-        checked={selectedChats.includes(user._id)}
-        onChange={(e) => {
-          e.stopPropagation(); // Prevents Link click event
-          handleCheckboxChange(user._id);
-        }}
-        onClick={(e) => e.preventDefault()} // Prevent Link navigation
-        className="w-4 h-4 ml-2 cursor-pointer accent-green-400 bg-white"
-      />
-    )}
-            
+  {isDeleteMode && (
+    <input
+      type="checkbox"
+      checked={selectedChats.includes(user._id)}
+      onClick={(e) => e.stopPropagation()} // Stop link click
+      onChange={() => handleCheckboxChange(user._id)} // Handle toggle
+      className="w-4 h-4 ml-2 cursor-pointer accent-green-400 bg-white"
+    />
+  )}         
             {/* Left image box */}
             <div >
               
@@ -351,17 +344,15 @@ useEffect(() => {
 
             </div>
             {/* Right card box */}
-            <div className="flex justify-between w-full pr-[10px]">
-              <div className="">
-                <h3 className="text-black font-semibold mb-[5px] h-[21px] w-[255px] overflow-x-hidden overflow-y-hidden">
+            <div className="w-full">
+              <div >
+                <h3 className="text-black font-semibold mb-[5px] h-[21px] w-fit overflow-x-hidden overflow-y-hidden">
                   {user.fullName}
                 </h3>
 
                 <p className="text-gray-500">
                   {onlineUsers.includes(user._id)?"Online":"offline"}
                 </p>
-               
-        
               </div>
             </div>
           </Link>

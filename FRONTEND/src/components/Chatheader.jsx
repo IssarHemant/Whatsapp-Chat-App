@@ -7,11 +7,6 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 
 const Chatheader = () => {
-  const [messages, setMessages] = useState([]); // all messages
-const [deletionMode, setDeletionMode] = useState(false); // show checkboxes or not
-const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-
     const { selectedUser, setSelectedUser } = useChatStore();
     const { onlineUsers } = useAuthStore();
  
@@ -21,12 +16,8 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
         <div className="flex justify-between items-center pl-[15px] pt-[10px] pb-[10px] bg-white z-10 ">
               {/* <!-- left content box --> */}
               <div className="flex items-center gap-4">
-                {/* <!-- image box --> */}
-                
+                {/* <!-- image box --> */}   
                 <img className="w-[35px] h-[35px] rounded-full" src= {selectedUser?.profilePhoto || "/avatar.png"} alt="" />
-
-                
-                 
                 {/* <!-- name box --> */}
                 <div>
                   <h1 className="text-black">{selectedUser?.fullName}</h1>
@@ -34,8 +25,7 @@ const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
                 </div>
               </div>
-              {/* <!--  right box --> */}
-             
+              {/* <!--  right box --> */}             
               <div className="flex items-center gap-[20px] mr-[20px]">
                 {/* <!-- video camera box --> */}
                 <div className="flex gap-[2px]">
