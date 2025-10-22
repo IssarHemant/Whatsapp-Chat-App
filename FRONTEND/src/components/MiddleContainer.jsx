@@ -312,7 +312,7 @@ useEffect(() => {
     </div>
 
      {/* Chats area for phone */}
-     <div className="xl:hidden w-full flex flex-col overflow-y-scroll pl-2 pr-2 ">
+     <div className="xl:hidden w-full flex flex-col overflow-y-scroll overflow-x-hidden pl-2 pr-2 ">
       {/* Cards area */}
       <div className="flex-1">
         {/* Card 1 */}
