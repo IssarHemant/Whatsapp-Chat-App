@@ -232,24 +232,22 @@ const [showImage,setShowImage]=useState(false);
       <div>
       <div className="">
       {imagePreview && (
-        <div className="relative ">
-          <div className="absolute left-[100px] bg-green-400 rounded-md bottom-[67px] border p-5">
-            <img
-              src={imagePreview}
-              alt="Preview"
-              className="w-40 h-40 object-cover rounded-lg border border-zinc-700"
-            />
-            <button
-              onClick={removeImage}
-              className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-base-300
-              flex items-center justify-center"
-              type="button"
-            >
-              <X className="size-3" />
-            </button>
-          </div>
-        </div>
-      )}
+  <div className="fixed bottom-[70px] left-1/2 transform -translate-x-1/2 z-20">
+    <div className="relative bg-green-400 rounded-md p-2 border">
+      <img
+        src={imagePreview}
+        alt="Preview"
+        className="w-32 h-32 object-cover rounded-md"
+      />
+      <button
+        onClick={removeImage}
+        className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-white flex items-center justify-center shadow hover:bg-gray-200"
+      >
+        <X className="w-4 h-4 text-black" />
+      </button>
+    </div>
+  </div>
+)}
       </div>
       
        {/* Bottom message */}
