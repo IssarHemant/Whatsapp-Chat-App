@@ -23,8 +23,11 @@ const Whatsapp = () => {
   const messageEndRef = useRef(null);
   const { authUser } = useAuthStore();
   const [selectedImg, setSelectedImg] = useState(null);
+  const [isLogout, setIsLogout] = useState(false);
 
-
+  const closeLogoutDropdown = () => {
+    setIsLogout(false);
+  };
   useEffect(() => {
     if (!selectedUser?._id) return;
 
@@ -216,7 +219,7 @@ const Whatsapp = () => {
             </div>
           </div>
         </div>
-       <MiddleContainer/>
+        <MiddleContainer isLogout={isLogout} setIsLogout={setIsLogout} />
         {/* First container for small sizes */}
         <div className="fixed border border-t-gray-100 bg-white bottom-0  pt-[15px] pb-[10px] px-[30px] w-screen xl:hidden flex items-center justify-between">
           {/* First icon */}
@@ -385,7 +388,7 @@ const Whatsapp = () => {
   </div>
 </div>
           <div className="sticky top-0 z-10">
-<Chatheader/>
+          <Chatheader closeLogoutDropdown={closeLogoutDropdown} />
 </div>
             {/* Scrolling chat box */}
             <div className=" w-full px-3 pb-[80px] h-screen flex flex-col overflow-y-scroll ">

@@ -1,12 +1,12 @@
 import React from 'react'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuthStore } from '../Store/useAuthStore';
 import { useChatStore } from "../Store/useChatStore";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-const MiddleContainer = () => {
+const MiddleContainer = ({isLogout, setIsLogout}) => {
     const {getUsers, users, selectedUser, setSelectedUser, isUsersLoading } = useChatStore();
 
     const { onlineUsers } = useAuthStore();
@@ -15,7 +15,7 @@ const MiddleContainer = () => {
     const [selectedChats, setSelectedChats] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
 const [filteredUsers, setFilteredUsers] = useState([]);
-const [isLogout,setIsLogout]=useState(false);
+const dropdownRef = useRef(null); // ✅ Ref for dropdown
 
 useEffect(() => {
   let filtered = users;
@@ -41,7 +41,16 @@ useEffect(() => {
       useEffect(() => {
         setFilteredUsers(showOnlineOnly ? users.filter(u => onlineUsers.includes(u._id)) : users);
       }, [users, showOnlineOnly, onlineUsers]);
-
+      useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setIsLogout(false); // hide dropdown
+          }
+        };
+    
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+      }, [setIsLogout]);
     const { logout } = useAuthStore();
 
     const handleLogoutState=()=>{
@@ -176,7 +185,7 @@ useEffect(() => {
             </svg>
           {/* Toggle state */}
 
-         <div className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
+         <div ref={dropdownRef} className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
             <ul>
               <li onClick={logout}>Logout</li>
               <li onClick={handleOnlineUsers}>
