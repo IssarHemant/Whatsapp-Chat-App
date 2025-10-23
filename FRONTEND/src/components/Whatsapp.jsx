@@ -7,6 +7,8 @@ import Chatheader from "./Chatheader"
 import { Link, useNavigate } from "react-router-dom";
 import MiddleContainer from "./MiddleContainer"
 import MessageInput from "./MessageInput";
+import { X } from "lucide-react";
+
 
 const Whatsapp = () => {
   const {
@@ -15,6 +17,8 @@ const Whatsapp = () => {
     selectedUser,
     subscribeToMessages,
     unsubscribeFromMessages,
+    showImage,
+    setShowImage,
   } = useChatStore();
   const messageEndRef = useRef(null);
   const { authUser } = useAuthStore();
@@ -360,6 +364,26 @@ const Whatsapp = () => {
               </div>
             </div>
           </section>):(<section className="flex-1 xl:block hidden h-full bg-white">
+            {/* Centered Image With Darker Overlay */}
+<div className={`fixed right-0 top-0 h-screen flex items-center justify-center z-20 transition-all duration-300 ${showImage?"opacity-100 scale-100":"opacity-0 scale-0"} xl:w-[66%]`}>
+  {/* Overlay With Higher Opacity And Blur */}
+  <div className="absolute inset-0 bg-black bg-opacity-80 backdrop-blur-sm"></div>
+
+  {/* Image Box */}
+  <div className="relative z-30">
+    <img
+      className="w-[300px] h-[300px] rounded-full"
+      src={selectedUser?.profilePhoto || "/avatar.png"}
+      alt=""
+    />
+    <button
+      onClick={() => setShowImage(false)}
+      className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-lg hover:bg-gray-200"
+    >
+      <X className="w-5 h-5 text-black" />
+    </button>
+  </div>
+</div>
           <div className="sticky top-0 z-10">
 <Chatheader/>
 </div>
@@ -393,8 +417,7 @@ const Whatsapp = () => {
             </div>
            <MessageInput/>
           </section>)}
-        
-        
+         
       </section>
     </>
   );

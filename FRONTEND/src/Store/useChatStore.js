@@ -10,6 +10,9 @@ export const useChatStore=create((set,get)=>({
     isUsersLoading:false,
     isMessagesLoading:false,
 
+    showImage: false,
+  setShowImage: (value) => set({ showImage: value }),
+
     getUsers:async()=>{
         set({isUsersLoading:true});
         try {

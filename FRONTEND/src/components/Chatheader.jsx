@@ -7,7 +7,7 @@ import { axiosInstance } from "../lib/axios.js";
 import toast from "react-hot-toast";
 
 const Chatheader = () => {
-    const { selectedUser, setSelectedUser } = useChatStore();
+    const { selectedUser, setShowImage} = useChatStore();
     const { onlineUsers } = useAuthStore();
  
   return (
@@ -17,7 +17,7 @@ const Chatheader = () => {
               {/* <!-- left content box --> */}
               <div className="flex items-center gap-4">
                 {/* <!-- image box --> */}   
-                <img className="w-[35px] h-[35px] rounded-full" src= {selectedUser?.profilePhoto || "/avatar.png"} alt="" />
+                <img onClick={() => setShowImage(true)} className="w-[35px] h-[35px] rounded-full" src= {selectedUser?.profilePhoto || "/avatar.png"} alt="" />
                 {/* <!-- name box --> */}
                 <div>
                   <h1 className="text-black">{selectedUser?.fullName}</h1>

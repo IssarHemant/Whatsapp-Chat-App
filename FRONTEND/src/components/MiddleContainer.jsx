@@ -46,7 +46,7 @@ useEffect(() => {
 
     const handleLogoutState=()=>{
         setIsLogout(!isLogout);
-      }
+      }  
 
       const handleOnlineUsers=()=>{
         setShowOnlineOnly(!showOnlineOnly);
@@ -176,7 +176,7 @@ useEffect(() => {
             </svg>
           {/* Toggle state */}
 
-         <div onBlur={()=>setIsLogout(!isLogout)} className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
+         <div className={`absolute right-0 top-10 z-10 bg-white text-black border rounded-lg py-3 pl-4 w-[150px] trasition-all transform origin-top duration-300 cursor-pointer ${isLogout?"scale-y-100":"scale-y-0"}`}>
             <ul>
               <li onClick={logout}>Logout</li>
               <li onClick={handleOnlineUsers}>
